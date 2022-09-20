@@ -31,8 +31,15 @@ final class UserToken: Model, Content {
 }
 
 extension UserToken: ModelTokenAuthenticatable {
+  
+  static func generate(for user: User) throws -> UserToken {
+    let random = [UInt8].random(count: 16).base64
+    return try UserToken(value: random, userID: user.requireID())
+  }
+  
   static let valueKey = \UserToken.$value
   static let userKey = \UserToken.$user
+  typealias User = App.User
   
   var isValid: Bool { true }
   

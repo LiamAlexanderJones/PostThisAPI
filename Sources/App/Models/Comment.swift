@@ -7,6 +7,7 @@
 
 import Fluent
 import Vapor
+import Foundation
 
 final class Comment: Model, Content {
   static let schema = "comments"
@@ -14,8 +15,14 @@ final class Comment: Model, Content {
   @ID(key: .id)
   var id: UUID?
   
+  @Parent(key: "user_id")
+  var user: User
+  
   @Parent(key: "post_id")
   var post: Post
+  
+  @Children(for: \.$comment)
+  var reactions: [Reaction]
   
   @Field(key: "body")
   var body: String
@@ -23,21 +30,47 @@ final class Comment: Model, Content {
   @Field(key: "createdAt")
   var createdAt: Date
   
-  @Field(key: "createdBy")
-  var createdBy: String
+//  @Field(key: "createdBy")
+//  var createdBy: String
   
   @Field(key: "hasImage")
   var hasImage: Bool
   
   init() { }
   
-  init(id: UUID? = nil, postID: Post.IDValue, body: String, createdAt: Date, createdBy: String, hasImage: Bool) {
+  init(id: UUID? = nil, userID: User.IDValue, postID: Post.IDValue, body: String, createdAt: Date, hasImage: Bool) {
     self.id = id
+    self.$user.id = userID
     self.$post.id = postID
     self.body = body
     self.createdAt = createdAt
-    self.createdBy = createdBy
+//    self.createdBy = createdBy
     self.hasImage = hasImage
   }
   
+  struct Create: Content {
+    let postID: UUID
+    var body: String
+    var createdAt: Date
+    var hasImage: Bool
+  }
+  
+  struct Get: Content {
+    var id: UUID?
+    var postID: UUID?
+    var body: String
+    var createdAt: Date
+    var createdBy: User.Public
+    var hasImage: Bool
+  }
+  
+}
+
+
+extension Array where Element == Comment {
+  func convertToGet() -> [Comment.Get] {
+    return self.map { comment in
+      return Comment.Get(id: comment.id, postID: comment.$post.id, body: comment.body, createdAt: comment.createdAt, createdBy: User.Public(id: comment.$user.id, username: comment.user.username), hasImage: comment.hasImage)
+    }
+  }
 }
