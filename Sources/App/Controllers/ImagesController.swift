@@ -9,7 +9,6 @@
 import Fluent
 import Vapor
 
-//TODO: Protect routes!
 
 struct ImagesController: RouteCollection {
   func boot(routes: RoutesBuilder) throws {

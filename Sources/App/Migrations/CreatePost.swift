@@ -15,7 +15,6 @@ struct CreatePost: AsyncMigration {
       .field("user_id", .uuid, .required, .references("users", "id", onDelete: .cascade))
       .field("body", .string, .required)
       .field("createdAt", .datetime, .required)
-     // .field("createdBy", .string, .required)
       .field("hasImage", .bool, .required)
       .create()
   }

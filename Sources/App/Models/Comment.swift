@@ -30,9 +30,6 @@ final class Comment: Model, Content {
   @Field(key: "createdAt")
   var createdAt: Date
   
-//  @Field(key: "createdBy")
-//  var createdBy: String
-  
   @Field(key: "hasImage")
   var hasImage: Bool
   

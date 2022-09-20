@@ -19,7 +19,7 @@ public func configure(_ app: Application) throws {
         database: Environment.get("DATABASE_NAME") ?? "postthis"
     ), as: .psql)
 
-    app.migrations.add(CreateTodo())
+
   app.migrations.add(CreateUser())
   app.migrations.add(CreateUserToken())
   app.migrations.add(CreatePost())

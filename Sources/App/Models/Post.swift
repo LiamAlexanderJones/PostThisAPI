@@ -9,7 +9,6 @@ import Fluent
 import Vapor
 import Foundation
 
-//TODO: Remove createdBY field for posts and comments. No longer needed.
 
 final class Post: Model, Content, Authenticatable {
   static let schema = "posts"
@@ -31,9 +30,6 @@ final class Post: Model, Content, Authenticatable {
   
   @Field(key: "createdAt")
   var createdAt: Date
-  
-//  @Field(key: "createdBy")
-//  var createdBy: String
   
   @Field(key: "hasImage")
   var hasImage: Bool

@@ -14,8 +14,7 @@ final class Reaction: Model, Content {
   
   @ID(key: .id)
   var id: UUID?
-  
-  //To consider: Type could be an enum of three values, so you would need three reactions in full. Or it could be a binary vector eg. 011, so you would only need one reaction potentially
+ 
   @Enum(key: "type")
   var type: ReactionType
   

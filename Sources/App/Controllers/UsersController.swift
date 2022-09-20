@@ -22,12 +22,6 @@ struct UsersController: RouteCollection {
     let tokenProtected = userRoutes.grouped(UserToken.authenticator(), User.guardMiddleware())
     tokenProtected.get("followed", use: getFollowedUsers)
     tokenProtected.post("follow", ":userToFollowID", use: followUser)
-    
-    //MARK: TEST ROUTES
-//    userRoutes.get(use: getUsers)
-//    userRoutes.group(":userID") { userRoute in
-//      userRoute.delete(use: deleteUser)
-//    }
 
   }
   
@@ -106,22 +100,5 @@ struct UsersController: RouteCollection {
     return .noContent
   }
   
-
-  
-  //MARK: -TEST FUNCTIONS. Uncomment only when needed
-  
-//  func getUsers(req: Request) async throws -> [User] {
-//    return try await User.query(on: req.db).all()
-//  }
-//
-//  func deleteUser(req: Request) async throws -> HTTPStatus {
-//    guard let user = try await User.find(req.parameters.get("userID"), on: req.db) else {
-//      throw Abort(.notFound)
-//    }
-//    try await user.delete(on: req.db)
-//    return .noContent
-//  }
-  
-
   
 }
