@@ -22,10 +22,8 @@ struct ImagesController: RouteCollection {
   
   
   func uploadImage(req: Request) async throws -> HTTPStatus {
-    print("Upload img route hit.")
     guard let imgID = req.parameters.get("imgID") else { throw Abort(.notFound) }
     guard let imgData = req.body.data else { throw Abort(.badRequest) }
-    print("Upload img route hit id is \(imgID) and data is \(imgData).")
     try await req.fileio.writeFile(imgData, at: req.application.directory.resourcesDirectory + imgID)
     return .created
   }
